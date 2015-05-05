@@ -1,0 +1,104 @@
+/* Site-specific CSS overrides */
+
+/* Extra small devices (phones, less than 768px) */
+/* xs media query normally would not need be required since xs is the default 
+in Bootstrap3 ("mobile first"), except that the media queries have already
+been applied, so anything outside of a media-query would fail to be overridden
+by the media queries of larger screen sizes. --NDH 20141019 */
+
+/*@media (min-width: @screen-xs-max) { ... }*/
+@media (max-width:767px){
+    h1 {
+        /* Fallback in case vw is not supported*/
+        font-size: 30px;
+        /* Font size 8% of visible width */
+        font-size: 8vw;
+    }
+    div #links {
+        margin-top: 4.5em;
+        margin-bottom: 1em;
+    }
+    div.help_links {
+        margin-top: -1em;
+    }
+}
+
+
+/* Small devices (tablets, 768px and up) */
+/*@media (min-width: @screen-sm-min) { ... }*/
+@media(min-width:768px){
+    div #links {
+        margin-top: 2.5em;
+        margin-bottom: 3em;
+    }
+    div.help_links {
+        margin-top: -1em;
+    }
+}
+
+/* Medium devices (desktops, 992px and up) */
+/*@media (min-width: @screen-md-min) { ... }*/
+@media(min-width:992px){
+    .vertical-align {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+/* Large devices (large desktops, 1200px and up) */
+/*@media (min-width: @screen-lg-min) { ... }*/
+/*@media(min-width:1200px){}*/
+
+
+.btn-file {
+    position: relative;
+    overflow: hidden;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+input[readonly] {
+    /*  background-color: white !important;*/
+    cursor: text !important;
+}
+
+.toffset  { margin-top: 2px; }
+.toffset1 { margin-top: 5px; }
+.toffset2 { margin-top: 10px; }
+.toffset3 { margin-top: 15px; }
+.toffset4 { margin-top: 30px; }
+.toffset5 { margin-top: 40px; }
+.toffset6 { margin-top: 60px; }
+.toffset7 { margin-top: 80px; }
+.toffset8 { margin-top: 100px; }
+.toffset9 { margin-top: 150px; }
+
+.boffset  { margin-bottom: 2px; }
+.boffset1 { margin-bottom: 5px; }
+.boffset2 { margin-bottom: 10px; }
+.boffset3 { margin-bottom: 15px; }
+.boffset4 { margin-bottom: 30px; }
+.boffset5 { margin-bottom: 40px; }
+.boffset6 { margin-bottom: 60px; }
+.boffset7 { margin-bottom: 80px; }
+.boffset8 { margin-bottom: 100px; }
+.boffset9 { margin-bottom: 150px; }
+
+ul {
+    list-style-type: none;
+    padding:0;
+    margin:0;
+}

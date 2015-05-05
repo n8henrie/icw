@@ -1,0 +1,123 @@
+{% import "bootstrap/google.html" as google %}
+{% extends "bootstrap/base.html" %}
+
+{% block head %}
+	{% block title %}
+		{% if title %}
+			<title>{{title}} - icw</title>
+		{% else %}
+			<title>icw - n8henrie.com</title>
+		{% endif %}
+	{% endblock %}
+
+	{% block styles %}
+		{{ super() }}
+		<link type="text/css" rel="stylesheet" href="{{ url_for('.static', filename='css/style.css') }}" />
+	{% endblock %}
+	
+	{% block metas %}
+	{{ super() }}
+	{% endblock %}
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+{% endblock %}
+
+
+{% block body %}
+	<div class="container-fluid">
+		<div class="row vertical-align">
+			<div class="col-md-7 text-center">
+
+					<div id="icw-header">
+						<h1>icsConverterWebapp</h1>
+						<p>by <a href="http://n8henrie.com">n8henrie.com</a></p>
+					</div>
+
+				<div id="messages">
+					{% with messages = get_flashed_messages() %}
+					{% if messages %}
+                    <div class="flashed-message">
+                    {% for message in messages %}
+					{{ message }}<br />
+					{% endfor %}
+                    </div>
+					{% endif %}
+					{% endwith %}
+				</div>
+				
+				<div id="center_content boffset7">
+					{% block content %}{% endblock %}
+				</div>
+				
+			    {% if links %}
+					<div id="links" class="links">
+					    <p class="lead">{{ links_title }}</p>
+                        <div class="help_links">
+                            <ul>
+						    {% for link in links %}
+							    <li><a href="{{ link['url'] }}">{{ link['description'] }}</a></li>
+						    {% endfor %}
+                            </ul>
+                        </div>
+					</div>
+			    {% endif %}				
+			</div>
+
+			<div class="col-sm-12 col-md-4 text-center">
+				<span id="top-ad-square" class="boffset2">
+					<script type="text/javascript"><!--
+						google_ad_client = "ca-pub-8941996312417072";
+						/* Webapp Square */
+						google_ad_slot = "8696106208";
+						google_ad_width = 336;
+						google_ad_height = 280;
+						//-->
+						</script>
+						<script type="text/javascript"
+						src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+					</script>
+				</span>
+				<span id="bottom-ad-square" class="boffset2">
+					<script type="text/javascript"><!--
+						google_ad_client = "ca-pub-8941996312417072";
+						/* Webapp Square */
+						google_ad_slot = "8696106208";
+						google_ad_width = 336;
+						google_ad_height = 280;
+						//-->
+						</script>
+						<script type="text/javascript"
+						src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+					</script>
+				</span>
+			</div>
+		</div>
+
+
+	    <div id="bottom-banner-ad" class="row">
+		<div class="col-md-7 text-center">
+	        <script type="text/javascript"><!--
+				google_ad_client = "ca-pub-8941996312417072";
+				/* Banner over webapp */
+				google_ad_slot = "7219373006";
+				google_ad_width = 728;
+				google_ad_height = 90;
+				//-->
+	            </script>
+	            <script type="text/javascript"
+	                    src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+	        </script>
+			</div>
+	    </div>
+	</div>
+
+	{% block scripts %}
+		{{ super() }}
+		{{ google.uanalytics(id=config['GOOGLE_ANALYTICS_ID'],
+		domain=config['GOOGLE_ANALYTICS_DOMAIN']) }}
+	{% endblock %}
+
+{% endblock %}
+
+{% block footer %}
+	{{ super() }}
+{% endblock %}

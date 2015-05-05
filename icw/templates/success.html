@@ -1,0 +1,12 @@
+<!-- extend base layout -->
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+    <p><b>It looks like everything worked!</b></p>
+    <p>Click below to download your converted file.</p>
+    <a href="/download" class="btn btn-default btn-lg" role="button">
+        <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
+    </a> 
+</div>
+{% endblock %}
