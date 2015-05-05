@@ -3,3 +3,5 @@
 lib/
 !lib/README.md
 .DS_Store
+config.py
+.sass-cache/
