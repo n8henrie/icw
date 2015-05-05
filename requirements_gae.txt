@@ -1,0 +1,34 @@
+# This file lists project requirements that should be installed into a `lib`
+# directory that gets uploaded to GAE. Run 'pip install -t lib -r
+# requirements_gae.txt' to install these dependencies in `lib/` subdirectory,
+# which will ensure they are uploaded to GAE (a few libraries not provided by
+# Google).
+#
+# Note: The `lib` directory is added to `sys.path` by `appengine_config.py`.
+# If working in a virtualenv, add lib to your virtualenv path by adding a
+# file with a .pth extension to the virualenv site-packages, .e.g `gae.pth`.
+# The contents of gae_lib.pth should be nothing more than a path to the lib/
+# directory, either relative or absolute works. E.g. mine is:
+#
+# ```gae_lib.pth
+# ../../../icw/lib/
+# ```
+#
+# Alternatively, just symlink to the gae_lib.pth included in the repo
+# `ln -s $PWD/gae_lib.pth $PWD/../lib/python2.7/site-packages/`
+#
+# pip install -t lib -r requirements_gae.txt
+#
+Flask-Bootstrap==3.3.2.1
+Flask-WTF==0.11
+Flask==0.10.1
+GoogleAppEngineCloudStorageClient==1.9.5.0
+MarkupSafe==0.23
+WTForms==2.0.2
+Werkzeug==0.9.6
+icalendar==3.9.0
+itsdangerous==0.24
+python-dateutil==2.4.2
+pytz==2015.2
+six==1.9.0
+wsgiref==0.1.2

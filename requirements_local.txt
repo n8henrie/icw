@@ -1,0 +1,9 @@
+# This file lists project requirements that should be installed into the
+# local virtualenv library. It includes libraries not needed in GAE (either
+# because they're for testing or because GAE already has them).
+#
+# pip install -r requirements_local.txt
+#
+Jinja2==2.7.3
+py==1.4.26
+pytest==2.7.0
