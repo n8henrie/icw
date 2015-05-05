@@ -1,0 +1,4 @@
+Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description,Location,Private
+Leading and trailing spaces,04/22/2013,7:17 PM,04/22/2013,10:17 PM,  FALSE  ,  Example Description  ,  Example Location  ,  TRUE
+“Gotcha” cell with just a space,04/23/2013,7:00 AM, ,7:30 AM,FALSE, , ,TRUE
+,,,,,,,,TRUE

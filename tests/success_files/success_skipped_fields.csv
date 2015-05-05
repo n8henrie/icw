@@ -1,0 +1,3 @@
+Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description,Location,Private
+Event with no location,04/20/2013,12:00 PM,04/20/2013,1:00 PM,FALSE,No location at all!,,TRUE
+Event with no description,04/21/2013,1:00 PM,04/21/2013,2:00 PM,FALSE,,Description-less location,TRUE

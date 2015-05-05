@@ -1,0 +1,3 @@
+Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description,Location,Private
+All day 1,04/13/2013,,,,TRUE,Example Description 4,Example Location 4,TRUE
+All day 2 multi day,04/14/2013,,04/16/2013,,TRUE,Example Description 5,Example Location 5,TRUE

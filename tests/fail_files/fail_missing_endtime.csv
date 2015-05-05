@@ -1,0 +1,1 @@
+Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description,Location,PrivateSubject 1,10/10/2013,7:30 PM,10/10/2013,8:30 PM,FALSE,ExampleDescription1,ExampleLocation,TRUESubject 2,11/04/2013,7:30 PM,11/04/2013,,FALSE,Should fail due to missing start date,ExampleLocation2,TRUE

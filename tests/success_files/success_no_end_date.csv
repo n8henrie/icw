@@ -1,0 +1,2 @@
+Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description,Location,Private
+No end date,04/15/2013,9:00 AM,,10:00 AM,FALSE,There is no end date in this event. Hopefully it will assume the same day.,Some location with no end date,TRUE

@@ -1,0 +1,3 @@
+Subject,Start Date,Start Time,End Date,End Time,All Day Event,Description,Location,Private
+Test 24 hour time,04/12/2013,10:00,04/13/2013,14:00,FALSE,This file tests 24 hour time,Example Location 3,TRUE
+Test 24 hour time 2,04/12/2013,14:00,04/13/2013,18:00,FALSE,This file tests 24 hour time,Example Location 3,TRUE
