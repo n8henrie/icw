@@ -1,0 +1,5 @@
+cron:
+- description: Clean old files from bucket
+  url: /cron/clean_bucket
+  schedule: every 1 hours
+  target: cron
