@@ -11,4 +11,4 @@ Bootstrap(app)
 
 # Note: We don't need to call run() since our application is embedded within
 # the App Engine WSGI application server.
-import icw.views
+import icw.views  # noqa

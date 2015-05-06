@@ -4,7 +4,7 @@ import sys
 
 sys.path.insert(0, os.getcwd())
 
-import gae_pathfix
+import gae_pathfix  # noqa
 from icw import app
 
 app.testing = True
