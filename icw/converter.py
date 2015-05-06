@@ -181,7 +181,8 @@ def convert(upfile):
 
         # `{}.get('nothere', '') == ''`, but
         # `{'nothere': None}.get('nothere', '') == None`
-        if row.get('All Day Event') and row.get('All Day Event').lower() == 'true':
+        if (row.get('All Day Event') and
+                row.get('All Day Event').lower() == 'true'):
 
             # All-day events will not be marked as 'busy'
             event.add('transp', 'TRANSPARENT')
