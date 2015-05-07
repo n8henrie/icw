@@ -8,6 +8,7 @@ python:
 env:
   global:
     - GAE_VERSION=1.9.20
+    - GAE_DIR=google_appengine
 
 before_script:
   - wget -nv https://storage.googleapis.com/appengine-sdks/featured/google_appengine_${GAE_VERSION}.zip
