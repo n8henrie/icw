@@ -5,7 +5,14 @@ language: python
 python:
   - "2.7"
 
-# command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
+env:
+  global:
+    - GAE_VERSION=1.9.20
+
+before_script:
+  - wget -nv https://storage.googleapis.com/appengine-sdks/featured/google_appengine_${GAE_VERSION}.zip
+  - unzip -q google_appengine_${GAE_VERSION}.zip
+
 install:
   - ln -s $PWD/gae_lib.pth $(python -c 'import sys; import os; print(os.path.join(sys.prefix, "lib", "python" + sys.version[:3], "site-packages"))')
   - pip install -t lib -r requirements_gae.txt
