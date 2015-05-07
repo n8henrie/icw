@@ -2,14 +2,21 @@
 Does the meat of the file conversion for icw.
 """
 
-from icalendar import Calendar, Event, LocalTimezone
 from datetime import datetime, timedelta
+from icalendar import Calendar, Event, LocalTimezone
+from icw import app
+import csv
 import logging
 import uuid
-import csv
 
-logging.basicConfig(level=logging.DEBUG)
+if app.debug:
+    level = logging.DEBUG
+else:
+    level = logging.WARNING
+
+logging.basicConfig(level=level)
 logger = logging.getLogger(__name__)
+logger.debug("Starting converter in debug mode.")
 
 
 class HeadersError(Exception):
