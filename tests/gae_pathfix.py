@@ -17,10 +17,14 @@ Usage:
 """
 
 import sys
+import os
 
 # Path to the *directory* containing dev_appserver.py
 PATH_TO_DEV_APPSERVER = "/usr/local/bin"
-sys.path.append(PATH_TO_DEV_APPSERVER)
+
+# If envvar GAE_DIR is set (as in travis-ci), use that value. Otherwise,
+# use the value set above.
+sys.path.append(os.getenv('GAE_DIR', PATH_TO_DEV_APPSERVER))
 
 import dev_appserver
 sys.path.extend(dev_appserver.EXTRA_PATHS)
