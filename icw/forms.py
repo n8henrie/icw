@@ -1,6 +1,5 @@
 from flask_wtf import Form
 from flask_wtf.file import FileField, FileAllowed, FileRequired
-# from wtforms import validators, ValidationError, SubmitField, Field
 from wtforms import SubmitField
 
 
@@ -12,4 +11,4 @@ class UploadForm(Form):
     ]
 
     csv_file = FileField('', validators=validators)
-    submit = SubmitField("Convert")
+    submit = SubmitField(label="Convert")

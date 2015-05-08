@@ -1,27 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
-<form class="form-inline" action="/" method="POST" enctype="multipart/form-data">
-    <!-- {{ form.csv_file.label }} -->
-    {{ form.hidden_tag() }}
-    <div class="form-group">
-        <div class="col-xs-9">
-            <div class="input-group">
-                <div class="input-group-btn">
-                    <span class="btn btn-default btn-file">
-                        Browse&hellip;
-                        {{ form.csv_file(class_="btn btn-default") }}
-                    </span>								
-                </div>
-                <input type="text" class="form-control" readonly>
-            </div>
+<div class="row">
+    <form class="form-inline center-block" action="/" method="POST" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <div class="input-group">
+            <label id="browsebutton" class="btn btn-default input-group-addon" for="my-file-selector">
+                {{ form.csv_file(class_="display:none", id="my-file-selector") }}
+                Browse...
+            </label>
+            <input type="text" class="form-control" readonly>
         </div>
-        <div class="col-xs-3">
-            <div class="input-group">
-                {{ form.submit(class_="btn btn-primary") }}			
-            </div>
-        </div>
-    </div>
-</form>
+        {{ form.submit(class_="btn btn-primary") }}         
+    </form>
+</div>
 {% endblock %}
 {% block scripts %}
 {{ super() }}

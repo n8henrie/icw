@@ -14,12 +14,27 @@ by the media queries of larger screen sizes. --NDH 20141019 */
         /* Font size 8% of visible width */
         font-size: 8vw;
     }
-    div #links {
-        margin-top: 4.5em;
+    div#links {
+        margin-top: 2em;
         margin-bottom: 1em;
     }
     div.help_links {
         margin-top: -1em;
+    }
+
+    .alert {
+        max-width: 75%;
+        display: inline-block;
+        margin: 0.8em 0 0.5em;
+        padding: 0.3em;
+    }
+    
+    .form-inline {
+        max-width: 75%;
+    }
+    
+    input#submit {
+        margin-top: 0.5em;
     }
 }
 
@@ -33,6 +48,12 @@ by the media queries of larger screen sizes. --NDH 20141019 */
     }
     div.help_links {
         margin-top: -1em;
+    }
+    .alert {
+        max-width: 330px;
+        display: inline-block;
+        margin: 1em 0 0.5em;
+        padding: 0.3em;
     }
 }
 
@@ -50,55 +71,16 @@ by the media queries of larger screen sizes. --NDH 20141019 */
 /*@media (min-width: @screen-lg-min) { ... }*/
 /*@media(min-width:1200px){}*/
 
-
-.btn-file {
-    position: relative;
-    overflow: hidden;
-}
-.btn-file input[type=file] {
-    position: absolute;
-    top: 0;
-    right: 0;
-    min-width: 100%;
-    min-height: 100%;
-    font-size: 100px;
-    text-align: right;
-    filter: alpha(opacity=0);
-    opacity: 0;
-    outline: none;
-    background: white;
-    cursor: inherit;
-    display: block;
-}
-input[readonly] {
-    /*  background-color: white !important;*/
-    cursor: text !important;
-}
-
-.toffset  { margin-top: 2px; }
-.toffset1 { margin-top: 5px; }
-.toffset2 { margin-top: 10px; }
-.toffset3 { margin-top: 15px; }
-.toffset4 { margin-top: 30px; }
-.toffset5 { margin-top: 40px; }
-.toffset6 { margin-top: 60px; }
-.toffset7 { margin-top: 80px; }
-.toffset8 { margin-top: 100px; }
-.toffset9 { margin-top: 150px; }
-
-.boffset  { margin-bottom: 2px; }
-.boffset1 { margin-bottom: 5px; }
-.boffset2 { margin-bottom: 10px; }
-.boffset3 { margin-bottom: 15px; }
-.boffset4 { margin-bottom: 30px; }
-.boffset5 { margin-bottom: 40px; }
-.boffset6 { margin-bottom: 60px; }
-.boffset7 { margin-bottom: 80px; }
-.boffset8 { margin-bottom: 100px; }
-.boffset9 { margin-bottom: 150px; }
-
 ul {
     list-style-type: none;
     padding:0;
     margin:0;
+}
+
+#browsebutton {
+  background-color: white;
+}
+
+#my-file-selector {
+    display: none;
 }
