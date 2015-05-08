@@ -33,7 +33,7 @@ def index():
             ics_file = converter.convert(upfile)
 
         except (ContentError, HeadersError, DatetimeFormatError) as error:
-            flash(error)
+            flash(error, 'danger')
             return render_template('index.html', form=form, links=base_links,
                                    links_title=links_title)
 
@@ -55,12 +55,12 @@ def index():
 
 @app.route('/success')
 def success():
-    links = [{'url': 'http://icw.n8henrie.com',
+    links = [{'url': '/',
               'description': "Convert another file"},
              {'url': 'https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick'
               '&hosted_button_id=ZCCTV6VCCS8J2',
               'description': "Buy me a coffee"}]
-    links.append(base_links)
+    links.extend(base_links)
 
     return render_template('success.html', links=links,
                            links_title="Where to next?")
