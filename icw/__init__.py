@@ -10,7 +10,7 @@ app = Flask(__name__)
 app.config.from_object('icw.config.DefaultConfig')
 
 # Dev config from file
-app.config.from_object('config')
+app.config.from_pyfile('config.py', silent=True)
 
 Bootstrap(app)
 
