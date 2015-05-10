@@ -24,6 +24,6 @@ install:
 script: tox
 
 after_failure:
-    - echo "PATH: $PATH"
-    - echo "PYTHONPATH: $PYTHONPATH"
-    - echo "sys.path: $(python -c 'import sys; print("\n".join(sys.path))')"
+    - echo "${PATH}"
+    - echo "${PYTHONPATH}"
+    - echo "$(python -c 'import sys; print("\n".join(sys.path))')"
