@@ -9,8 +9,8 @@ app = Flask(__name__)
 # Default config from class inside inside config
 app.config.from_object('icw.config.DefaultConfig')
 
-# Dev config from file
-app.config.from_pyfile('config.py', silent=True)
+# Production config from file (not in VCS)
+app.config.from_pyfile('../prod_config.py', silent=True)
 
 Bootstrap(app)
 
