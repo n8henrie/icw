@@ -12,7 +12,7 @@ env:
 before_script:
   - wget -P vendor -nv https://storage.googleapis.com/appengine-sdks/featured/google_appengine_${GAE_VERSION}.zip
   - unzip -q -d vendor vendor/google_appengine_${GAE_VERSION}.zip
-  - export PATH=$PATH:$PWD/vendor
+  - export PATH=$PATH:$PWD/vendor/google_appengine
 
 install:
   - ln -s $PWD/gae_lib.pth $(python -c 'import sys; import os; print(os.path.join(sys.prefix, "lib", "python" + sys.version[:3], "site-packages"))')
