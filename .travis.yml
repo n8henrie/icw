@@ -3,22 +3,27 @@
 language: python
 
 python:
-  - "2.7"
+    - "2.7"
 
 env:
-  global:
-    - GAE_VERSION=1.9.20
-    - PYTHONPATH=$PYTHONPATH:$PWD/vendor/google_appengine
+    global:
+        - GAE_VERSION=1.9.20
+        - PYTHONPATH=$PYTHONPATH:$PWD/vendor/google_appengine
 
 before_script:
-  - wget -P vendor -nv https://storage.googleapis.com/appengine-sdks/featured/google_appengine_${GAE_VERSION}.zip
-  - unzip -q -d vendor vendor/google_appengine_${GAE_VERSION}.zip
+    - wget -P vendor -nv https://storage.googleapis.com/appengine-sdks/featured/google_appengine_${GAE_VERSION}.zip
+    - unzip -q -d vendor vendor/google_appengine_${GAE_VERSION}.zip
 
 install:
-  - ln -s $PWD/gae_lib.pth $(python -c 'import sys; import os; print(os.path.join(sys.prefix, "lib", "python" + sys.version[:3], "site-packages"))')
-  - pip install -t lib -r requirements_gae.txt
-  - pip install -r requirements_local.txt
-  - pip install tox
+    - ln -s $PWD/gae_lib.pth $(python -c 'import sys; import os; print(os.path.join(sys.prefix, "lib", "python" + sys.version[:3], "site-packages"))')
+    - pip install -t lib -r requirements_gae.txt
+    - pip install -r requirements_local.txt
+    - pip install tox
 
 # command to run tests, e.g. python setup.py test
 script: tox
+
+after_failure:
+    - echo "PATH: $PATH"
+    - echo "PYTHONPATH: $PYTHONPATH"
+    - echo "sys.path: $(python -c 'import sys; print("\n".join(sys.path))')"
