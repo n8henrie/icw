@@ -8,11 +8,11 @@ python:
 env:
   global:
     - GAE_VERSION=1.9.20
+    - PYTHONPATH=$PYTHONPATH:$PWD/vendor/google_appengine
 
 before_script:
   - wget -P vendor -nv https://storage.googleapis.com/appengine-sdks/featured/google_appengine_${GAE_VERSION}.zip
   - unzip -q -d vendor vendor/google_appengine_${GAE_VERSION}.zip
-  - export PYTHONPATH=$PYTHONPATH:$PWD/vendor/google_appengine
 
 install:
   - ln -s $PWD/gae_lib.pth $(python -c 'import sys; import os; print(os.path.join(sys.prefix, "lib", "python" + sys.version[:3], "site-packages"))')
