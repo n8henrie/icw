@@ -17,13 +17,10 @@ Usage:
 """
 
 import sys
-import os
 
 # Path to the *directory* containing dev_appserver.py
 PATH_TO_DEV_APPSERVER = "/usr/local/bin"
-
-if not os.getenv("TRAVIS"):
-    sys.path.append(PATH_TO_DEV_APPSERVER)
+sys.path.append(PATH_TO_DEV_APPSERVER)
 
 import dev_appserver
 sys.path.extend(dev_appserver.EXTRA_PATHS)
