@@ -3,6 +3,7 @@
 # Import the Flask Framework
 from flask import Flask
 from flask_bootstrap import Bootstrap
+from flask_wtf.csrf import CsrfProtect
 
 app = Flask(__name__)
 
@@ -13,6 +14,7 @@ app.config.from_object('icw.config.DefaultConfig')
 app.config.from_pyfile('../prod_config.py', silent=True)
 
 Bootstrap(app)
+CsrfProtect(app)
 
 # Note: We don't need to call run() since our application is embedded within
 # the App Engine WSGI application server.
