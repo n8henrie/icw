@@ -27,3 +27,4 @@ after_failure:
     - echo "${PATH}"
     - echo "${PYTHONPATH}"
     - echo "$(python -c 'import sys; print("\n".join(sys.path))')"
+    - printenv
