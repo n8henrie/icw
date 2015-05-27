@@ -4,9 +4,7 @@ import cloudstorage as gcs
 import time
 
 app = Flask(__name__)
-
-
-app.config.from_object('config')
+app.config.from_pyfile('prod_config.py')
 
 my_default_retry_params = gcs.RetryParams(initial_delay=0.2,
                                           max_delay=5.0,
