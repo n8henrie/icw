@@ -6,3 +6,4 @@ lib/
 /prod_config.py
 .sass-cache/
 .tox/
+.*.swp
