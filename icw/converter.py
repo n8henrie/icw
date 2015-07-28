@@ -39,6 +39,7 @@ def check_headers(headers):
     correct so that they'll be recognized as the
     necessary keys."""
 
+    headers = [header.strip() for header in headers]
     valid_keys = ['End Date', 'Description',
                   'All Day Event', 'Start Time', 'Private',
                   'End Time', 'Location', 'Start Date', 'Subject']
@@ -149,6 +150,8 @@ def convert(upfile):
 
     reader_list = list(reader_builder)
 
+    # Check for correct headers before we spend the time to go through
+    # the whole file
     headers = check_headers(reader_list[0])
     logger.debug("Verified headers: {}".format(', '.join(headers)))
 
