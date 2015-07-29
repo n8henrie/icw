@@ -8,7 +8,7 @@ python:
 
 env:
     global:
-        - GAE_VERSION=1.9.20
+        - GAE_VERSION=1.9.24
         - PYTHONPATH=$PYTHONPATH:$PWD/vendor/google_appengine
 
 before_script:
