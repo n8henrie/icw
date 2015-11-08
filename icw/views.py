@@ -74,14 +74,6 @@ def download():
     mtype = 'text/calendar'
     with gcs.open(fullpath) as r:
         downfile = r.read()
-        # return send_file(r.name, mimetype=mtype, as_attachment=True,
-        #     attachment_filename="converted.ics")
-
-    # buf = io.BytesIO()
-    # buf.write(downfile)
-    # buf.seek(0)
-    # return send_file(buf, mimetype=mtype, as_attachment=True,
-    #     attachment_filename="converted.ics")
 
     response = make_response(downfile)
     response.headers['Content-Type'] = mtype
@@ -91,12 +83,17 @@ def download():
 
 
 @app.errorhandler(404)
-def page_not_found(e):
+def error_404(e):
     """Return a custom 404 error."""
     return 'Sorry, Nothing at this URL.', 404
 
 
-@app.errorhandler(500)  # noqa
-def page_not_found(e):
+@app.errorhandler(500)
+def error_500(e):
     """Return a custom 500 error."""
-    return 'Sorry, unexpected error: {}'.format(e), 500
+    msg = ("Sorry, unexpected error: {}<br/><br/>"
+           "This shouldn't have happened. Would you mind "
+           '<a href="http://n8henrie.com/contact">sending me</a> '
+           "a message regarding what caused this (and the file if "
+           "possible)? Thanks -Nate".format(e))
+    return msg, 500
