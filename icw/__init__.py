@@ -5,7 +5,7 @@ from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_wtf.csrf import CsrfProtect
 
-__version__ = '0.1.2'
+__version__ = '0.1.3'
 
 app = Flask(__name__)
 

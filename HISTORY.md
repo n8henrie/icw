@@ -1,5 +1,11 @@
 # History
 
+## 0.1.3 :: 20151109
+
+- Use unicode_literals
+- Update 500 error with request to contact me
+- Update version number to correspond with app.yaml
+
 ## 0.1.2 :: 20150727
 
 - Strip out spaces before and after headers instead of throwing an exception

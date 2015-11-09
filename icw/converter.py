@@ -2,6 +2,7 @@
 Does the meat of the file conversion for icw.
 """
 
+from __future__ import unicode_literals  # noqa
 from datetime import datetime, timedelta
 from icalendar import Calendar, Event, LocalTimezone
 from icw import app
