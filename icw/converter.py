@@ -6,17 +6,10 @@ from datetime import datetime, timedelta
 from icalendar import Calendar, Event, LocalTimezone
 from icw import app
 import csv
-import logging
 import uuid
 
-if app.debug:
-    level = logging.DEBUG
-else:
-    level = logging.WARNING
 
-logging.basicConfig(level=level)
-logger = logging.getLogger(__name__)
-logger.debug("Starting converter in debug mode.")
+app.logger.debug("Starting converter in debug mode.")
 
 
 class HeadersError(Exception):
@@ -46,8 +39,8 @@ def check_headers(headers):
 
     if not all([set(headers) == set(valid_keys),
                 len(headers) == len(valid_keys)]):
-        logger.info("Problem in the check_headers function. Headers: "
-                    "{}".format(", ".join(headers)))
+        app.logger.info("Problem in the check_headers function. Headers: "
+                        "{}".format(", ".join(headers)))
         errmsg = "Something isn't right with the headers."
         try:
             # bool(0) is False
@@ -60,7 +53,7 @@ def check_headers(headers):
                 errmsg += " Missing keys: " + ", ".join(map(str, missing)) \
                           + "."
         except Exception as e:
-            logger.exception(e)
+            app.logger.exception(e)
 
         raise HeadersError(errmsg)
     else:
@@ -85,11 +78,11 @@ def check_dates_and_times(start_date, start_time, end_date, end_time, all_day,
                           rownum):
     """Checks the dates and times to make sure everything is kosher."""
 
-    logger.debug('Date checker started.')
+    app.logger.debug('Date checker started.')
 
     # Gots to have a start date, no matter what.
     if start_date in ['', None]:
-        logger.error('Missing a start date at row {}'.format(rownum))
+        app.logger.error('Missing a start date at row {}'.format(rownum))
         errmsg = 'Missing a start date'
         try:
             errmsg += " around row number {}.".format(rownum)
@@ -134,13 +127,13 @@ def check_dates_and_times(start_date, start_time, end_date, end_time, all_day,
 
     if all_day is None or all_day.lower() != 'true':
         if not (start_time and end_time):
-            logger.error('Missing a required time field in a non-all_day '
-                         'event on date: {}.'.format(start_date))
+            app.logger.error('Missing a required time field in a non-all_day '
+                             'event on date: {}.'.format(start_date))
             errmsg = 'Unless an event is "all day," it needs both a start '\
                      'and end time. Double check row {}.'.format(rownum)
             raise DatetimeFormatError(errmsg)
 
-    logger.debug('Date checker ended.')
+    app.logger.debug('Date checker ended.')
 
 
 def convert(upfile):
@@ -153,7 +146,7 @@ def convert(upfile):
     # Check for correct headers before we spend the time to go through
     # the whole file
     headers = check_headers(reader_list[0])
-    logger.debug("Verified headers: {}".format(', '.join(headers)))
+    app.logger.debug("Verified headers: {}".format(', '.join(headers)))
 
     raw_reader = [dict(zip(headers, values)) for values in reader_list[1:]]
     reader = clean_spaces(raw_reader)
@@ -167,7 +160,7 @@ def convert(upfile):
     # Write the clean list of dictionaries to events.
     # rownum starts at 2 to match the spreadsheet numbering.
     for rownum, row in enumerate(reader, start=2):
-        logger.debug('Event {} started, contents:\n{}'.format(rownum, row))
+        app.logger.debug('Event {} started, contents:\n{}'.format(rownum, row))
 
         # No blank subjects, skip row if subject is None or ''
         if row.get('Subject') in ['', None]:
