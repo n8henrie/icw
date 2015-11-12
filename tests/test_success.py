@@ -20,4 +20,5 @@ def test_success_files(client):
         download = client.get('/download')
 
         assert response.status_code == 200
+        assert download.status_code == 200
         assert 'END:VEVENT\r\nEND:VCALENDAR' in download.data
