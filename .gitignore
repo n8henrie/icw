@@ -7,3 +7,4 @@ lib/
 .sass-cache/
 .tox/
 .*.swp
+tests/.cache/
