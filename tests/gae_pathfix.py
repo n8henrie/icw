@@ -22,10 +22,10 @@ import sys
 PATH_TO_DEV_APPSERVER = "/usr/local/bin"
 sys.path.append(PATH_TO_DEV_APPSERVER)
 
-import dev_appserver
+import dev_appserver  # noqa
 sys.path.extend(dev_appserver.EXTRA_PATHS)
 
-from google.appengine.ext import testbed
+from google.appengine.ext import testbed  # noqa
 
 testbed = testbed.Testbed()
 testbed.activate()
