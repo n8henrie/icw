@@ -1,5 +1,5 @@
 serve:
-	dev_appserver.py $$PWD
+	dev_appserver.py .
 
 upload:
 	appcfg.py update .
