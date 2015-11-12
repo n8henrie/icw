@@ -1,5 +1,12 @@
 # History
 
+## 1.0.6 :: 20151111
+
+- Now unicode friendly
+- Use `utf-8-sig` to fix rare bug from files encoded with Notepad on PC
+- Workaround for unicode in csv module: <https://docs.python.org/2/library/csv.html#examples>
+- Another change in version number scheme, should now match GAE / app.yaml
+
 ## 0.1.3 :: 20151109
 
 - Use unicode_literals

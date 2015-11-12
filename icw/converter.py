@@ -1,13 +1,14 @@
+# -*- coding: utf-8
 """converter.py
 Does the meat of the file conversion for icw.
 """
 
+from __future__ import unicode_literals
 from datetime import datetime, timedelta
 from icalendar import Calendar, Event, LocalTimezone
 from icw import app
 import csv
 import uuid
-
 
 app.logger.debug("Starting converter in debug mode.")
 
@@ -25,6 +26,14 @@ class DatetimeFormatError(Exception):
 class ContentError(Exception):
     def __str__(self):
         return "ContentError: " + self.args[0]
+
+
+def unicode_csv_reader(utf8_file, **kwargs):
+    # splitlines lets us respect universal newlines
+    utf8_data = utf8_file.read().splitlines()
+    csv_reader = csv.reader(utf8_data, **kwargs)
+    for row in csv_reader:
+        yield [unicode(cell, 'utf-8-sig') for cell in row]
 
 
 def check_headers(headers):
@@ -48,10 +57,10 @@ def check_headers(headers):
             missing = set(valid_keys) - set(headers)
             if extras:
                 errmsg += " Extra (or misspelled) keys: " + \
-                          ", ".join(map(str, extras)) + "."
+                          ", ".join(map(unicode, extras)) + "."
             if missing:
-                errmsg += " Missing keys: " + ", ".join(map(str, missing)) \
-                          + "."
+                errmsg += " Missing keys: " + ", ".join(map(unicode,
+                                                            missing)) + "."
         except Exception as e:
             app.logger.exception(e)
 
@@ -137,9 +146,7 @@ def check_dates_and_times(start_date, start_time, end_date, end_time, all_day,
 
 
 def convert(upfile):
-
-    reader_builder = csv.reader(upfile.read().splitlines(),
-                                skipinitialspace=True)
+    reader_builder = unicode_csv_reader(upfile, skipinitialspace=True)
 
     reader_list = list(reader_builder)
 
