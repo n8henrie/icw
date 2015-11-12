@@ -3,7 +3,11 @@
 # because they're for testing or because GAE already has them).
 #
 # pip install -r requirements_local.txt
-#
-Jinja2==2.7.3
-py==1.4.26
-pytest==2.7.0
+
+flake8==2.5.0
+Jinja2==2.8
+pep8==1.6.2
+pytest==2.8.2
+tox==2.2.1
+virtualenv==13.1.2
+wheel==0.26.0
