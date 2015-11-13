@@ -1,4 +1,4 @@
-# -*- coding: utf-8
+# -*- coding: utf-8 -*-
 """converter.py
 Does the meat of the file conversion for icw.
 """
@@ -9,6 +9,8 @@ from icalendar import Calendar, Event, LocalTimezone
 from icw import app
 import csv
 import uuid
+import codecs
+from collections import Counter
 
 app.logger.debug("Starting converter in debug mode.")
 
@@ -28,12 +30,19 @@ class ContentError(Exception):
         return "ContentError: " + self.args[0]
 
 
-def unicode_csv_reader(utf8_file, **kwargs):
+def unicode_csv_reader(upfile, **kwargs):
+    """Python2's csv module doesn't like unicode. This is a workaround."""
+
+    updata = upfile.read()
+
+    # strip out BOM if present
+    if updata.startswith(codecs.BOM_UTF8):
+        updata = updata[len(codecs.BOM_UTF8):]
+
     # splitlines lets us respect universal newlines
-    utf8_data = utf8_file.read().splitlines()
-    csv_reader = csv.reader(utf8_data, **kwargs)
+    csv_reader = csv.reader(updata.splitlines(), **kwargs)
     for row in csv_reader:
-        yield [unicode(cell, 'utf-8-sig') for cell in row]
+        yield [unicode(cell, 'utf8') for cell in row]
 
 
 def check_headers(headers):
@@ -42,25 +51,23 @@ def check_headers(headers):
     necessary keys."""
 
     headers = [header.strip() for header in headers]
-    valid_keys = ['End Date', 'Description',
-                  'All Day Event', 'Start Time', 'Private',
-                  'End Time', 'Location', 'Start Date', 'Subject']
+    valid_keys = ['End Date', 'Description', 'All Day Event', 'Start Time',
+                  'Private', 'End Time', 'Location', 'Start Date', 'Subject']
 
-    if not all([set(headers) == set(valid_keys),
-                len(headers) == len(valid_keys)]):
+    if not sorted(headers) == sorted(valid_keys):
         app.logger.info("Problem in the check_headers function. Headers: "
                         "{}".format(", ".join(headers)))
         errmsg = "Something isn't right with the headers."
         try:
             # bool(0) is False
-            extras = set(headers) - set(valid_keys)
+            extras = Counter(headers) - Counter(valid_keys)
             missing = set(valid_keys) - set(headers)
             if extras:
-                errmsg += " Extra (or misspelled) keys: " + \
-                          ", ".join(map(unicode, extras)) + "."
+                extras_str = ", ".join(extras.elements())
+                errmsg += " Extra or misspelled keys: {}.".format(extras_str)
             if missing:
-                errmsg += " Missing keys: " + ", ".join(map(unicode,
-                                                            missing)) + "."
+                missing_str = ", ".join(missing)
+                errmsg += " Missing keys: {}.".format(missing_str)
         except Exception as e:
             app.logger.exception(e)
 
@@ -249,7 +256,7 @@ def convert(upfile):
 
         # n8henrie.com tag at the end not used for tracking, just
         # personalization
-        event['uid'] = str(uuid.uuid4()) + '___n8henrie.com'
+        event['uid'] = unicode(uuid.uuid4()) + '___n8henrie.com'
 
         cal.add_component(event)
         rownum += 1

@@ -1,3 +1,6 @@
+# -*- coding: utf-8
+
+from __future__ import unicode_literals
 from icw import app
 from forms import UploadForm
 from flask import (flash, make_response, redirect, render_template, request,
@@ -21,10 +24,9 @@ def index():
 
     form = UploadForm()
     if request.method == 'POST' and form.validate_on_submit():
-
         bucket_name = app.config['BUCKET_NAME']
-        key = uuid.uuid4()
-        filename = str(key) + '.ics'
+        key = unicode(uuid.uuid4())
+        filename = key + '.ics'
         fullpath = '/' + bucket_name + '/' + filename
 
         upfile = request.files['csv_file']
@@ -33,11 +35,14 @@ def index():
             ics_file = converter.convert(upfile)
 
         except (ContentError, HeadersError, DatetimeFormatError) as error:
+            app.logger.info("Error in file conversion: ")
+            app.logger.info(error)
             flash(error, 'danger')
             return render_template('index.html', form=form, links=base_links,
                                    links_title=links_title)
 
         else:
+            app.logger.info("File converted without errors")
             mtype = 'text/calendar'
             with gcs.open(fullpath, 'w', content_type=mtype) as w:
                 w.write(ics_file)
@@ -70,7 +75,7 @@ def success():
 def download():
     bucket_name = app.config['BUCKET_NAME']
     key = session['key']
-    fullpath = '/' + bucket_name + '/' + str(key) + '.ics'
+    fullpath = '/' + bucket_name + '/' + key + '.ics'
     mtype = 'text/calendar'
     with gcs.open(fullpath) as r:
         downfile = r.read()

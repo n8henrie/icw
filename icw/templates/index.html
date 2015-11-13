@@ -2,7 +2,7 @@
 {% block content %}
 <div class="row">
     <form class="form-inline center-block" action="/" method="POST" enctype="multipart/form-data">
-        {{ form.csrf_token }}
+        {{ form.hidden_tag() }}
         <div class="input-group">
             <label id="browsebutton" class="btn btn-default input-group-addon" for="my-file-selector">
                 {{ form.csv_file(id="my-file-selector") }}
