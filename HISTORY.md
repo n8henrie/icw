@@ -1,5 +1,15 @@
 # History
 
+## 1.0.7 :: 20151113
+
+- Add test file for stripping out BOM (`success_utf8bom.csv`)
+- Minor updates to README
+- Update dependencies *with the [exception of Flask-WTF](https://github.com/lepture/flask-wtf/commit/b1d77ea962128e8d3b32b9ebea4c36a7cd1b5157#commitcomment-14374763)*
+- Update views.py and others to use `unicode_literals` (does *not* perpetuate between modules)
+- Add Makefile with `make install`, `make upload` and a few other shortcut commands
+- Use `collections.Counter` to compare headers instead of sets (to cover edge cases with duplicates)
+- Use scoped session in tests
+
 ## 1.0.6 :: 20151111
 
 - Now unicode friendly
