@@ -1,12 +1,12 @@
 serve:
 	dev_appserver.py .
 
-upload:
+upload: install
 	appcfg.py update .
 
 bump:
-	vim app.yaml
-	vim icw/__init__.py
+	vim +'/version:' app.yaml
+	vim +'/__version__' icw/__init__.py
 	vim HISTORY.md
 
 install:
