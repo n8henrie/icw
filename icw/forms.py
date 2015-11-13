@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from flask_wtf import Form
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms import SubmitField

@@ -256,7 +256,7 @@ def convert(upfile):
 
         # n8henrie.com tag at the end not used for tracking, just
         # personalization
-        event['uid'] = str(uuid.uuid4()) + '___n8henrie.com'
+        event['uid'] = unicode(uuid.uuid4()) + '___n8henrie.com'
 
         cal.add_component(event)
         rownum += 1
