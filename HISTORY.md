@@ -1,5 +1,10 @@
 # History
 
+## 1.0.8 :: 20151114
+
+- Fallback to [`chardet`](https://github.com/chardet/chardet) for UnicodeDecodeError if utf8 doesn't work
+- Add some default GA config values to make Travis happy
+
 ## 1.0.7 :: 20151113
 
 - Add test file for stripping out BOM (`success_utf8bom.csv`)
