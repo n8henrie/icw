@@ -11,6 +11,7 @@ import csv
 import uuid
 import codecs
 from collections import Counter
+import chardet
 
 app.logger.debug("Starting converter in debug mode.")
 
@@ -41,8 +42,18 @@ def unicode_csv_reader(upfile, **kwargs):
 
     # splitlines lets us respect universal newlines
     csv_reader = csv.reader(updata.splitlines(), **kwargs)
+
+    # Guess utf8 as default, fall back to chardet if it raises an exception
+    encoding = 'utf8'
     for row in csv_reader:
-        yield [unicode(cell, 'utf8') for cell in row]
+        try:
+            yield [unicode(cell, encoding) for cell in row]
+        except UnicodeDecodeError:
+            encoding = chardet.detect(updata).get('encoding')
+            app.logger.warning("Had UnicodeDecodeError, now trying with "
+                               "encoding {}".format(encoding))
+            # Retry the line, uncaught exception if still not right
+            yield [unicode(cell, encoding) for cell in row]
 
 
 def check_headers(headers):
