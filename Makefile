@@ -10,6 +10,10 @@ bump:
 	vim HISTORY.md
 
 install:
+	../bin/pip install -r requirements_local.txt
+	../bin/pip install -t lib -r requirements_gae.txt
+
+update:
 	../bin/pip install --upgrade -r requirements_local.txt
 	../bin/pip install --upgrade -t lib -r requirements_gae.txt
 
