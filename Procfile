@@ -1,1 +1,2 @@
-web: gunicorn --debug icw:app
+# web: gunicorn --debug icw:app
+web: ./run.py
