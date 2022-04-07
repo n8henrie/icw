@@ -1,15 +1,14 @@
-from __future__ import unicode_literals
 from flask_wtf import Form
-from flask_wtf.file import FileField, FileAllowed, FileRequired
+from flask_wtf.file import FileAllowed, FileField, FileRequired
 from wtforms import SubmitField
 
 
 class UploadForm(Form):
 
     validators = [
-        FileRequired(message='There was no file!'),
-        FileAllowed(['csv'], message='Must be a csv file!')
+        FileRequired(message="There was no file!"),
+        FileAllowed(["csv"], message="Must be a csv file!"),
     ]
 
-    csv_file = FileField('', validators=validators)
+    csv_file = FileField("", validators=validators)
     submit = SubmitField(label="Convert")

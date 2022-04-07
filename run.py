@@ -1,4 +1,5 @@
-from google.appengine.ext.webapp.util import run_wsgi_app
+#!/usr/bin/env python3
 from icw import app
 
-run_wsgi_app(app)
+if __name__ == "__main__":
+    app.run(debug=True)

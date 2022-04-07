@@ -10,10 +10,10 @@ __version__ = '1.0.8'
 app = Flask(__name__)
 
 # Default config from class inside inside config
-app.config.from_object('icw.config.DefaultConfig')
+app.config.from_object("icw.config.DefaultConfig")
 
 # Production config from file (not in VCS)
-app.config.from_pyfile('../prod_config.py', silent=True)
+app.config.from_pyfile("../prod_config.py", silent=True)
 
 Bootstrap(app)
 CsrfProtect(app)
