@@ -1,4 +1,4 @@
-.
+./src/icw
 build==0.7.0
 chardet==2.3.0
 dominate==2.6.0
