@@ -8,3 +8,4 @@ lib/
 .tox/
 .*.swp
 tests/.cache/
+*.egg-info
