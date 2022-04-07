@@ -2,7 +2,7 @@ serve:
 	./run.py
 
 deploy:
-	pip freeze > requirements.txt
+	pip freeze | grep -v -- '^-e ' > requirements.txt
 	@git diff --quiet requirements.txt || { echo "dirty requirements.txt"; exit 1; }
 	git push heroku master:main
 
