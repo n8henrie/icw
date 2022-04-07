@@ -1,1 +1,1 @@
-web: gunicorn icw:app
+web: gunicorn --debug icw:app
