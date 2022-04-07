@@ -1,2 +1,1 @@
-# web: gunicorn --debug icw:app
-web: ./run.py
+web: gunicorn --bind "0.0.0.0:433" icw:app
