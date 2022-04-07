@@ -112,6 +112,9 @@ def error_404(e):
 @app.errorhandler(500)
 def error_500(e):
     """Return a custom 500 error."""
+    app.logger.exception(e)
+    app.logger.warning(repr(e))
+    app.logger.warning(e)
     msg = (
         "Sorry, unexpected error: {}<br/><br/>"
         "This shouldn't have happened. Would you mind "
