@@ -2,7 +2,8 @@ serve:
 	./run.py
 
 deploy:
-	pip freeze --all | grep -v -- '^-e ' > requirements.txt
+	@echo "./src/icw" > requirements.txt
+	@pip freeze --all | grep -v -- '^-e ' >> requirements.txt
 	@git diff --quiet requirements.txt || { echo "dirty requirements.txt"; exit 1; }
 	git push heroku master:main
 
