@@ -8,6 +8,7 @@ from flask_wtf.csrf import CsrfProtect
 __version__ = '1.0.8'
 
 app = Flask(__name__)
+app.debug = True
 
 # Default config from class inside inside config
 app.config.from_object("icw.config.DefaultConfig")
