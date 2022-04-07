@@ -6,7 +6,7 @@ Flask-Bootstrap==3.3.5.7
 Flask-WTF==0.11
 gunicorn==20.1.0
 icalendar==3.9.1
--e git+ssh://git@github.com/n8henrie/icw.git@9b5ed96701332232cc5fee75e09293f31f0b6333#egg=icw
+-e git+ssh://git@github.com/n8henrie/icw.git@1db980abda1b08e14d9bb5b4a034ab04268f2583#egg=icw
 itsdangerous==2.0.1
 Jinja2==2.8
 MarkupSafe==2.0.1
