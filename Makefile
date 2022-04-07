@@ -1,8 +1,10 @@
 serve:
-	dev_appserver.py .
+	./run.py
 
-upload: install
-	appcfg.py update .
+deploy:
+	pip freeze > requirements.txt
+	@git diff --quiet requirements.txt || { echo "dirty requirements.txt"; exit 1; }
+	git push heroku master:main
 
 bump:
 	vim +'/version:' app.yaml
