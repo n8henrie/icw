@@ -15,7 +15,6 @@ app.config.from_object("icw.config.DefaultConfig")
 # Production config from file (not in VCS)
 app.config.from_pyfile("../prod_config.py", silent=True)
 
-app.debug = True
 Bootstrap(app)
 CsrfProtect(app)
 
