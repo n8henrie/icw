@@ -16,19 +16,21 @@ from icw import app
 app.logger.debug("Starting converter in debug mode.")
 
 
+class BaseICWError(Exception):
+    def __str__(self):
+        return f"{self.__class__.__name__}: {self.args[0]}"
+
+
 class HeadersError(Exception):
-    def __str__(self):
-        return "HeadersError: " + self.args[0]
+    ...
 
 
-class DatetimeFormatError(Exception):
-    def __str__(self):
-        return "DatetimeFormatError: " + self.args[0]
+class DatetimeFormatError(BaseICWError):
+    ...
 
 
-class ContentError(Exception):
-    def __str__(self):
-        return "ContentError: " + self.args[0]
+class ContentError(BaseICWError):
+    ...
 
 
 def unicode_csv_reader(upfile, **kwargs):
@@ -55,14 +57,14 @@ def unicode_csv_reader(upfile, **kwargs):
                 line = line.decode(encoding)
             yield line
 
-    yield from csv.reader(line_decoder(updata), skipinitialspace=True)
+    yield from csv.reader(line_decoder(updata), **kwargs)
 
 
 def check_headers(headers):
-    """Makes sure that all the headers are exactly
-    correct so that they'll be recognized as the
-    necessary keys."""
+    """Ensure sure that all headers are exactly correct.
 
+    This ensures the headers will be recognized as the necessary keys.
+    """
     headers = [header.strip() for header in headers]
     valid_keys = [
         "End Date",
@@ -127,7 +129,7 @@ def check_dates_and_times(
         errmsg = "Missing a start date"
         try:
             errmsg += " around row number {}.".format(rownum)
-        except:
+        except Exception:
             pass
         raise DatetimeFormatError(errmsg)
 
@@ -143,7 +145,7 @@ def check_dates_and_times(
                 try:
                     bad_date = e.args[0].split("'")[1]
                     errmsg += " Problematic date: " + bad_date
-                except:
+                except Exception:
                     pass
 
                 raise DatetimeFormatError(errmsg)
@@ -165,7 +167,7 @@ def check_dates_and_times(
                 try:
                     bad_time = e.args[0].split("'")[1]
                     errmsg += " Problematic time: " + bad_time
-                except:
+                except Exception:
                     pass
 
                 raise DatetimeFormatError(errmsg)
@@ -231,10 +233,7 @@ def convert(upfile):
 
         # `{}.get('nothere', '') == ''`, but
         # `{'nothere': None}.get('nothere', '') == None`
-        if (
-            row.get("All Day Event")
-            and row.get("All Day Event").lower() == "true"
-        ):
+        if (ade := row.get("All Day Event")) and ade.lower() == "true":
 
             # All-day events will not be marked as 'busy'
             event.add("transp", "TRANSPARENT")
