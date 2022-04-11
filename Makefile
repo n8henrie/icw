@@ -22,4 +22,4 @@ build:
 
 .PHONY: serve
 serve: build
-	docker run -it -p "${PORT}:${PORT}" -e PORT="${PORT}" icw
+	docker run -it --rm -p "${PORT}:${PORT}" -e PORT="${PORT}" icw
