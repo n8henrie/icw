@@ -5,7 +5,7 @@
 # pip install -r requirements_local.txt
 
 flake8==2.5.0
-Jinja2==2.8
+Jinja2==2.11.3
 pep8==1.6.2
 pytest==2.8.2
 tox==2.2.1
