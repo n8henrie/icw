@@ -3,6 +3,8 @@ FROM python:3.9-slim
 WORKDIR /app
 ENV PORT=8000
 
+COPY clean-old.sh /
+RUN crontab -l | { cat; echo "0 * * * * bash /clean-old.sh"; } | crontab -
 
 RUN adduser flask
 RUN chown --recursive flask:flask /app
