@@ -1,3 +1,4 @@
+# Apparently docker-ccompose doesn't work in Heroku. Oh well.
 version: "3.9"
 services:
   icw:
