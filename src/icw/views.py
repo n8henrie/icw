@@ -1,4 +1,5 @@
 import uuid
+from pathlib import Path
 
 from flask import (
     flash,
@@ -33,9 +34,7 @@ def index():
 
     form = UploadForm()
     if request.method == "POST" and form.validate_on_submit():
-        key = str(uuid.uuid4())
-        filename = key + ".ics"
-        fullpath = "/" + filename
+        fullpath = Path("/tmp") / f"{uuid.uuid4()}.ics"
 
         upfile = request.files["csv_file"]
 
@@ -55,8 +54,7 @@ def index():
 
         else:
             app.logger.info("File converted without errors")
-            with open("/tmp/" + fullpath, "w") as w:
-                w.write(ics_file.decode())
+            fullpath.write_bytes(ics_file)
 
             session["key"] = key
             return redirect(url_for("success"))
