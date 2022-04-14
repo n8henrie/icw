@@ -20,4 +20,4 @@ RUN ./.venv/bin/python3 -m pip install .
 
 # Must use sh format for env expansion
 # https://docs.docker.com/engine/reference/builder/#cmd
-CMD [ "sh", "-c", "./.venv/bin/gunicorn --chdir=./src --bind=\":$PORT\" icw:app" ]
+CMD [ "sh", "-c", "./.venv/bin/gunicorn --chdir=./src --bind=\":$PORT\" --workers=4 icw:app" ]
