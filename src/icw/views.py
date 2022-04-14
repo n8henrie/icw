@@ -34,7 +34,7 @@ def index():
 
     form = UploadForm()
     if request.method == "POST" and form.validate_on_submit():
-        key = uuid.uuid4()
+        key = str(uuid.uuid4())
         fullpath = Path(f"/tmp/{key}.ics")
 
         upfile = request.files["csv_file"]
