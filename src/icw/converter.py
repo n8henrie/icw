@@ -39,14 +39,14 @@ def unicode_csv_reader(upfile, **kwargs):
     updata = upfile.read()
 
     # strip out BOM if present
-    if updata.startswith(codecs.BOM_UTF8):
-        updata = updata[len(codecs.BOM_UTF8) :]
+    if updata.startswith(codecs.BOM_UTF8.decode("utf8")):
+        updata = updata[len(codecs.BOM_UTF8.decode("utf8")) :]
 
     # splitlines lets us respect universal newlines
     def line_decoder(updata):
         for line in updata.splitlines():
             try:
-                line = line.decode("utf8")
+                line = line
             except UnicodeDecodeError:
                 encoding = chardet.detect(updata).get("encoding")
                 app.logger.warning(
