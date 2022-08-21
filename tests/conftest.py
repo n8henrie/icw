@@ -1,9 +1,5 @@
 import pytest
-import os
-import sys
 
-sys.path.insert(0, os.getcwd())
-import gae_pathfix  # noqa
 from icw import app  # noqa
 
 app.testing = True
