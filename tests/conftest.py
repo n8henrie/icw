@@ -11,7 +11,7 @@ app.config['WTF_CSRF_ENABLED'] = False
 app.debug = True
 
 
-@pytest.yield_fixture(scope="session")
+@pytest.fixture(scope="session")
 def client():
     with app.test_client() as client:
         yield client
