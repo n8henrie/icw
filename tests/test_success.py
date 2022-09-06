@@ -10,7 +10,7 @@ def test_success_files(client):
     without errors.
     """
 
-    success_files = glob.glob('tests/success_files/*')
+    success_files = glob.glob("tests/success_files/*")
 
     for success_file in success_files:
         with open(success_file, "rb") as f:
@@ -18,7 +18,7 @@ def test_success_files(client):
                 "/", data=dict(csv_file=f), follow_redirects=True
             )
 
-        download = client.get('/download')
+        download = client.get("/download")
 
         assert response.status_code == 200
         assert download.status_code == 200

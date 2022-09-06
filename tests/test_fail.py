@@ -4,18 +4,22 @@ py.test tests for files that should not be a problem.
 
 import pytest
 import os
-from icw.converter import (ContentError, DatetimeFormatError, HeadersError,
-                           convert)
+from icw.converter import (
+    ContentError,
+    DatetimeFormatError,
+    HeadersError,
+    convert,
+)
 import glob
 
 
 def flask_post(client, infile):
-    return client.post('/', data=dict(csv_file=infile), follow_redirects=True)
+    return client.post("/", data=dict(csv_file=infile), follow_redirects=True)
 
 
 def prefix(myfile):
     """Prefixes the file path for individual test files."""
-    return os.path.join('tests', 'fail_files', myfile)
+    return os.path.join("tests", "fail_files", myfile)
 
 
 def test_fail_blank_subject(client):
@@ -25,7 +29,11 @@ def test_fail_blank_subject(client):
         "fail_blank_subject_spaces.csv",
         "fail_blank_subject.csv",
     ]:
+<<<<<<< HEAD
         with open(prefix(blank_subject), "rb") as infile:
+=======
+        with open(prefix(blank_subject)) as infile:
+>>>>>>> 6547b3e (blacken)
 
             # Should raise ContentError since blank subject will be skipped
             # and it's the only event.
@@ -44,7 +52,11 @@ def test_fail_dateformat(client):
         "fail_2_digit_years.csv",
         "fail_missing_startdate.csv",
     ]:
+<<<<<<< HEAD
         with open(prefix(date_format), "rb") as infile:
+=======
+        with open(prefix(date_format)) as infile:
+>>>>>>> 6547b3e (blacken)
 
             with pytest.raises(DatetimeFormatError):
                 # response = flask_post(client, infile)
@@ -56,7 +68,11 @@ def test_fail_timeformat(client):
     """Fail with an improper time format."""
 
     for time_format in ["fail_timeformat.csv", "fail_missing_endtime.csv"]:
+<<<<<<< HEAD
         with open(prefix(time_format), "rb") as infile:
+=======
+        with open(prefix(time_format)) as infile:
+>>>>>>> 6547b3e (blacken)
             with pytest.raises(DatetimeFormatError):
                 # response = flask_post(client, infile)
                 # return response
@@ -66,7 +82,7 @@ def test_fail_timeformat(client):
 def test_fail_headers(client):
     """Test a few conditions with improper headers."""
 
-    fail_headers_files = glob.glob('tests/fail_files/fail_*_header.csv')
+    fail_headers_files = glob.glob("tests/fail_files/fail_*_header.csv")
     for fail_headers_file in fail_headers_files:
         with open(fail_headers_file, "rb") as infile:
             with pytest.raises(HeadersError):
