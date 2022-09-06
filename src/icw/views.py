@@ -91,8 +91,8 @@ def download():
     key = session["key"]
     fullpath = "/tmp/" + key + ".ics"
     mtype = "text/calendar"
-    with open(fullpath) as r:
-        downfile = r.read()
+    with open(fullpath, "rb") as f:
+        downfile = f.read()
 
     response = make_response(downfile)
     response.headers["Content-Type"] = mtype
