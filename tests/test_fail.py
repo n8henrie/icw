@@ -2,15 +2,17 @@
 py.test tests for files that should not be a problem.
 """
 
-import pytest
+import glob
 import os
+
+import pytest
+
 from icw.converter import (
     ContentError,
+    convert,
     DatetimeFormatError,
     HeadersError,
-    convert,
 )
-import glob
 
 
 def flask_post(client, infile):

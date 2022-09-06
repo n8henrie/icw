@@ -1,9 +1,9 @@
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed, FileField, FileRequired
 from wtforms import SubmitField
 
 
-class UploadForm(Form):
+class UploadForm(FlaskForm):
 
     validators = [
         FileRequired(message="There was no file!"),
