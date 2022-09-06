@@ -2,7 +2,7 @@
 py.test tests to test a number of previously problematic files
 """
 
-from io import StringIO
+from io import BytesIO
 
 proper_headers = [
     "End Date",
@@ -34,8 +34,8 @@ def test_from_string(client):
     csv_as_string = "\n".join(
         [",".join(each) for each in [proper_headers, string_event]]
     )
-    data = dict(csv_file=(StringIO(csv_as_string), "fake.csv"))
+    data = dict(csv_file=(BytesIO(csv_as_string.encode()), "fake.csv"))
     response = client.post("/", data=data, follow_redirects=True)
     download = client.get("/download")
     assert response.status_code == 200
-    assert "DESCRIPTION:A great event!" in download.data
+    assert b"DESCRIPTION:A great event!" in download.data
