@@ -11,6 +11,7 @@ from flask import (
     url_for,
 )
 
+import icw
 from icw import app
 
 from .converter import ContentError, convert, DatetimeFormatError, HeadersError
@@ -26,7 +27,7 @@ base_links = [
         "description": "icw source code at GitHub",
     },
 ]
-links_title = "A few helpful links"
+LINKS_TITLE = "A few helpful links"
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -45,12 +46,13 @@ def index():
         except (ContentError, HeadersError, DatetimeFormatError) as error:
             app.logger.info("Error in file conversion: ")
             app.logger.info(error)
-            flash(error, "danger")
+            flash(str(error), "danger")
             return render_template(
                 "index.html",
                 form=form,
                 links=base_links,
-                links_title=links_title,
+                links_title=LINKS_TITLE,
+                version=icw.__version__,
             )
 
         else:
@@ -60,12 +62,16 @@ def index():
             session["key"] = key
             return redirect(url_for("success"))
 
-    for field, errors in form.errors.items():
+    for _, errors in form.errors.items():
         for error in errors:
             msg = "Whups! {}".format(error)
             flash(msg)
     return render_template(
-        "index.html", form=form, links=base_links, links_title=links_title
+        "index.html",
+        form=form,
+        links=base_links,
+        links_title=LINKS_TITLE,
+        version=icw.__version__,
     )
 
 
@@ -82,7 +88,10 @@ def success():
     links.extend(base_links)
 
     return render_template(
-        "success.html", links=links, links_title="Where to next?"
+        "success.html",
+        links=links,
+        links_title="Where to next?",
+        version=icw.__version__,
     )
 
 
@@ -96,14 +105,14 @@ def download():
 
     response = make_response(downfile)
     response.headers["Content-Type"] = mtype
-    response.headers["Content-Disposition"] = (
-        "attachment; " "filename=converted.ics"
-    )
+    response.headers[
+        "Content-Disposition"
+    ] = "attachment; filename=converted.ics"
     return response
 
 
 @app.errorhandler(404)
-def error_404(e):
+def error_404(_):
     """Return a custom 404 error."""
     return "Sorry, Nothing at this URL.", 404
 
@@ -115,10 +124,10 @@ def error_500(e):
     app.logger.warning(repr(e))
     app.logger.warning(e)
     msg = (
-        "Sorry, unexpected error: {}<br/><br/>"
+        f"Sorry, unexpected error: {e}<br/><br/>"
         "This shouldn't have happened. Would you mind "
         '<a href="https://n8henrie.com/contact">sending me</a> '
         "a message regarding what caused this (and the file if "
-        "possible)? Thanks -Nate".format(e)
+        "possible)? Thanks -Nate"
     )
     return msg, 500

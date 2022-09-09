@@ -15,11 +15,11 @@
 		{{ super() }}
 		<link type="text/css" rel="stylesheet" href="{{ url_for('.static', filename='css/style.css') }}" />
 	{% endblock %}
-	
+
 	{% block metas %}
 	{{ super() }}
 	{% endblock %}
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ url_for('.static', filename='favicon.ico') }}">
 {% endblock %}
 
 
@@ -30,12 +30,13 @@
 
 					<div id="icw-header">
 						<h1>icsConverterWebapp</h1>
-						<p>by <a href="http://n8henrie.com">n8henrie.com</a></p>
+                        <p>version {{ version }}</p>
+						<p>by <a href="https://n8henrie.com">n8henrie.com</a></p>
 					</div>
-                
+
 				<div id="center_content">
                     {% with messages = get_flashed_messages(with_categories=True) %}
-                    {% if messages %} 
+                    {% if messages %}
                     <div id="messages">
                     {{ utils.flashed_messages(messages=messages, container=False) }}
                     </div>
@@ -43,7 +44,7 @@
                     {% endwith %}
 
 					{% block content %}{% endblock %}
-			    
+
                     {% if links %}
                         <div id="links" class="links">
                             <p class="lead">{{ links_title }}</p>
@@ -55,7 +56,7 @@
                                 </ul>
                             </div>
                         </div>
-                    {% endif %}				
+                    {% endif %}
 				</div>
 			</div>
 
