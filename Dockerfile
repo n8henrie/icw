@@ -1,12 +1,13 @@
-# FROM python:3.9 as builder
-#
-# RUN apt install gcc
-# RUN python3 -m pip wheel 'typed-ast<1.1'
-# RUN find / -name '*.whl' -ls; false
+FROM python:3.10 as builder
 
-FROM python:3.9-slim as runner
+COPY pyproject.toml *.md /app/
+COPY src /app/src/
+WORKDIR /tmp/wheels
+RUN python3 -m pip wheel /app[test,dev]
 
-COPY --from=builder /root/.pip/ /root/.pip/
+FROM python:3.10-slim as runner
+
+COPY --from=builder /tmp/wheels/*.whl /tmp/wheels/
 
 ENV PORT=8000
 
@@ -14,28 +15,21 @@ RUN \
     apt update \
     && apt-get install -y cron \
     && rm -rf /var/lib/apt/lists/*
-    # && apt-get install -y gcc \
-    # && pip install 'typed-ast<1.1.0' \
-    # && apt-get purge -y --auto-remove gcc
 
 COPY clean-old.sh /
 RUN crontab -l | { cat; echo "*/5 * * * * bash /clean-old.sh"; } | crontab -
 
 WORKDIR /app
-COPY pyproject.toml setup.cfg *.md .
-COPY src ./src
-COPY tests ./tests
+COPY tests ./tests/
 
-RUN adduser flask
-RUN chown --recursive flask:flask /app
-USER flask
+RUN adduser docker-user
+RUN chown --recursive docker-user:docker-user /app
+USER docker-user
 
 RUN \
     python3 -m venv --system-site-packages .venv \
     && ./.venv/bin/python3 -m pip install pip==22 \
-    && ./.venv/bin/python3 -m pip install --prefer-binary .[test,dev] \
+    && ./.venv/bin/python3 -m pip install --no-index --find-links=/tmp/wheels icw[test,dev] \
     && ./.venv/bin/python3 -m pytest tests
 
-# Must use sh format for env expansion
-# https://docs.docker.com/engine/reference/builder/#cmd
-CMD [ "sh", "-c", "./.venv/bin/gunicorn --chdir=./src --bind=\":$PORT\" --workers=4 icw:app" ]
+CMD [ "./.venv/bin/gunicorn", "--bind=:8000", "--workers=4", "icw:app" ]
