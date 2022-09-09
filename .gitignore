@@ -9,3 +9,5 @@ lib/
 .*.swp
 tests/.cache/
 *.egg-info
+
+docs/_build
