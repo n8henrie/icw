@@ -3,7 +3,10 @@ FROM python:3.10 as builder
 COPY pyproject.toml *.md /app/
 COPY src /app/src/
 WORKDIR /tmp/wheels
-RUN python3 -m pip wheel /app[test,dev]
+RUN \
+    python3 -m pip install build \
+    && python3 -m build /app \
+    && python3 -m pip wheel /app[test,dev]
 
 FROM python:3.10-slim as runner
 
