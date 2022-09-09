@@ -1,11 +1,10 @@
 """Top level of icw.py"""
 
-# Import the Flask Framework
 from flask import Flask
 from flask_bootstrap import Bootstrap
 from flask_wtf.csrf import CSRFProtect
 
-__version__ = "1.0.9"
+__version__ = "2.0.0"
 
 app = Flask(__name__)
 
