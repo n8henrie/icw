@@ -3,7 +3,7 @@
 lib/
 !lib/README.md
 .DS_Store
-/prod_config.py
+/prod_config.cfg
 .sass-cache/
 .tox/
 .*.swp

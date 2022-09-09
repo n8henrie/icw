@@ -1,0 +1,8 @@
+*
+!pyproject.toml
+!*.md
+!/src
+!/tests
+!/clean-old.sh
+**/__pycache__
+*.pyc

@@ -7,3 +7,7 @@ services:
       context: .
     ports:
       - "8000:8000"
+    environment:
+      - "ICW_CONFIG=/etc/icw/prod_config.cfg"
+    volumes:
+      - "./prod_config.cfg:/etc/icw/prod_config.cfg:ro"

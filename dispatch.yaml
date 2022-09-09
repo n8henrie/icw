@@ -1,3 +1,0 @@
-dispatch:
-  - url: "*/cron/clean_bucket"
-    module: default

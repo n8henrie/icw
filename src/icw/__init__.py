@@ -13,7 +13,7 @@ app = Flask(__name__)
 app.config.from_object("icw.config.DefaultConfig")
 
 # Production config from file (not in VCS)
-app.config.from_pyfile("../../prod_config.py", silent=False)
+app.config.from_envvar("ICW_CONFIG", silent=True)
 
 Bootstrap(app)
 CSRFProtect(app)
