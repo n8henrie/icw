@@ -63,4 +63,4 @@ RUN \
     ./.venv/bin/python3 -m pip install --no-index --find-links=/tmp/wheels /app[test,dev] \
     && ./.venv/bin/python3 -m pytest tests
 
-CMD [ "./.venv/bin/gunicorn", "--bind=:8000", "--workers=4", "icw:app" ]
+CMD [ "sh", "-c", "./.venv/bin/gunicorn --bind=:${PORT} --workers=4 icw:app" ]
