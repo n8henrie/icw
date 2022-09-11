@@ -23,6 +23,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: 'pip'
+          cache-dependency-path: pyproject.toml
       - name: Build HTML
         run: make docs
       - uses: actions/upload-pages-artifact@v0.1.0
