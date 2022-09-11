@@ -1,9 +1,4 @@
 ---
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
 name: Sphinx build
 
 on: push
