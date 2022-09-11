@@ -195,7 +195,6 @@ def check_dates_and_times(
 
 def convert(upfile: t.IO) -> bytes:
     """Convert the file."""
-    breakpoint()
     reader_builder = unicode_csv_reader(upfile, skipinitialspace=True)
 
     reader_list = list(reader_builder)
