@@ -1,6 +1,8 @@
+"""Provide pytest setup for icw."""
+
 import pytest
 
-from icw import app  # noqa
+from icw import app
 
 app.testing = True
 app.config["WTF_CSRF_ENABLED"] = False
@@ -9,5 +11,6 @@ app.debug = True
 
 @pytest.fixture(scope="session")
 def client():
-    with app.test_client() as client:
-        yield client
+    """Provide client testing fixture."""
+    with app.test_client() as test_client:
+        yield test_client

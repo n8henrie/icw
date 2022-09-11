@@ -1,15 +1,10 @@
-"""test_success.py
-py.test tests for files that should not be a problem.
-"""
+"""Tests for files that should not be a problem."""
 
 import glob
 
 
 def test_success_files(client):
-    """Iterate through the list of success_files and make sure they convert
-    without errors.
-    """
-
+    """Test each in `success_files` and ensure conversion without errors."""
     success_files = glob.glob("tests/success_files/*")
 
     for success_file in success_files:

@@ -1,3 +1,5 @@
+"""Flask views for icw."""
+import typing as t
 import uuid
 from pathlib import Path
 
@@ -10,10 +12,10 @@ from flask import (
     session,
     url_for,
 )
+from flask.wrappers import Response
 
-import icw
-from icw import app
-
+from . import __version__ as icw_version
+from . import app
 from .converter import ContentError, convert, DatetimeFormatError, HeadersError
 from .forms import UploadForm
 
@@ -31,8 +33,8 @@ LINKS_TITLE = "A few helpful links"
 
 
 @app.route("/", methods=["GET", "POST"])
-def index():
-
+def index() -> Response:
+    """Provide default route."""
     form = UploadForm()
     if request.method == "POST" and form.validate_on_submit():
         key = str(uuid.uuid4())
@@ -52,7 +54,7 @@ def index():
                 form=form,
                 links=base_links,
                 links_title=LINKS_TITLE,
-                version=icw.__version__,
+                version=icw_version,
             )
 
         else:
@@ -63,20 +65,21 @@ def index():
             return redirect(url_for("success"))
 
     for _, errors in form.errors.items():
-        for error in errors:
-            msg = "Whups! {}".format(error)
+        for err in errors:
+            msg = f"Whups! {err}"
             flash(msg)
     return render_template(
         "index.html",
         form=form,
         links=base_links,
         links_title=LINKS_TITLE,
-        version=icw.__version__,
+        version=icw_version,
     )
 
 
 @app.route("/success")
-def success():
+def success() -> Response:
+    """Provide route for successful conversion."""
     links = [
         {"url": "/", "description": "Convert another file"},
         {
@@ -91,12 +94,13 @@ def success():
         "success.html",
         links=links,
         links_title="Where to next?",
-        version=icw.__version__,
+        version=icw_version,
     )
 
 
 @app.route("/download")
-def download():
+def download() -> Response:
+    """Provide route for downloading converted file."""
     key = session["key"]
     fullpath = "/tmp/" + key + ".ics"
     mtype = "text/calendar"
@@ -112,13 +116,13 @@ def download():
 
 
 @app.errorhandler(404)
-def error_404(_):
+def error_404(_: t.Any) -> Response:
     """Return a custom 404 error."""
-    return "Sorry, Nothing at this URL.", 404
+    return make_response("Sorry, Nothing at this URL.", 404)
 
 
 @app.errorhandler(500)
-def error_500(e):
+def error_500(e) -> Response:
     """Return a custom 500 error."""
     app.logger.exception(e)
     app.logger.warning(repr(e))
@@ -127,7 +131,7 @@ def error_500(e):
         f"Sorry, unexpected error: {e}<br/><br/>"
         "This shouldn't have happened. Would you mind "
         '<a href="https://n8henrie.com/contact">sending me</a> '
-        "a message regarding what caused this (and the file if "
-        "possible)? Thanks -Nate"
+        "a message regarding what caused this (and the file if possible)? "
+        "Thanks -Nate"
     )
-    return msg, 500
+    return make_response(msg, 500)

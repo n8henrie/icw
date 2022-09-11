@@ -1,6 +1,4 @@
-"""test_upload.py
-py.test tests to test a number of previously problematic files
-"""
+"""Regression tests for previously problematic files."""
 
 from io import BytesIO
 

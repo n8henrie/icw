@@ -1,4 +1,4 @@
-"""Top level of icw.py"""
+"""icw :: Flask-based Webapp to convert a csv file into an icalendar file."""
 
 from flask import Flask
 from flask_bootstrap import Bootstrap

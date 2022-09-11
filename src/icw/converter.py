@@ -1,15 +1,15 @@
-"""converter.py
-Does the meat of the file conversion for icw.
-"""
+"""Converts csv files to ics files."""
 
 import codecs
 import csv
+import typing as t
 import uuid
 from collections import Counter
 from datetime import datetime, timedelta
 
 import chardet
 from icalendar import Calendar, Event, LocalTimezone
+from werkzeug.datastructures import FileStorage
 
 from icw import app
 
@@ -17,49 +17,54 @@ app.logger.debug("Starting converter in debug mode.")
 
 
 class BaseICWError(Exception):
-    def __str__(self):
+    """Base class for icw errors."""
+
+    def __str__(self) -> str:
+        """Pretty error string."""
         return f"{self.__class__.__name__}: {self.args[0]}"
 
 
 class HeadersError(Exception):
-    ...
+    """Error with headers."""
 
 
 class DatetimeFormatError(BaseICWError):
-    ...
+    """Error in input datetime format."""
 
 
 class ContentError(BaseICWError):
-    ...
+    """Error in the body of the input data."""
 
 
-def unicode_csv_reader(upfile, **kwargs):
-    """Python's csv module doesn't like unicode. This is a workaround."""
-
+def unicode_csv_reader(
+    upfile: FileStorage, **kwargs: t.Any
+) -> t.Iterable[list[str]]:
+    """Workaround to decode data prior to passing to CSV module."""
     updata = upfile.read()
 
     # strip out BOM if present
     if updata.startswith(codecs.BOM_UTF8):
-        updata = updata[len(codecs.BOM_UTF8) :]
+        idx = len(codecs.BOM_UTF8)
+        updata = updata[idx:]
 
     # splitlines lets us respect universal newlines
-    def line_decoder(updata):
+    def line_decoder(updata: bytes) -> t.Iterable[str]:
         for line in updata.splitlines():
             try:
-                line = line.decode()
+                line_str = line.decode()
             except UnicodeDecodeError:
-                encoding = chardet.detect(updata).get("encoding")
+                encoding = chardet.detect(updata)["encoding"]
                 app.logger.warning(
-                    "Had UnicodeDecodeError, now trying with {encoding}"
+                    f"Had UnicodeDecodeError, now trying with {encoding}"
                 )
                 # Retry the line, uncaught exception if still not right
-                line = line.decode(encoding)
-            yield line
+                line_str = line.decode(encoding)
+            yield line_str
 
     yield from csv.reader(line_decoder(updata), **kwargs)
 
 
-def check_headers(headers):
+def check_headers(headers: list[str]) -> list[str]:
     """Ensure sure that all headers are exactly correct.
 
     This ensures the headers will be recognized as the necessary keys.
@@ -79,8 +84,8 @@ def check_headers(headers):
 
     if not sorted(headers) == sorted(valid_keys):
         app.logger.info(
-            "Problem in the check_headers function. Headers: "
-            "{}".format(", ".join(headers))
+            "Problem in the check_headers function. "
+            f"Headers: {', '.join(headers)}"
         )
         errmsg = "Something isn't right with the headers."
         try:
@@ -89,45 +94,47 @@ def check_headers(headers):
             missing = set(valid_keys) - set(headers)
             if extras:
                 extras_str = ", ".join(extras.elements())
-                errmsg += " Extra or misspelled keys: {}.".format(extras_str)
+                errmsg += f" Extra or misspelled keys: {extras_str}."
             if missing:
                 missing_str = ", ".join(missing)
-                errmsg += " Missing keys: {}.".format(missing_str)
+                errmsg += f" Missing keys: {missing_str}."
         except Exception as e:
             app.logger.exception(e)
 
         raise HeadersError(errmsg)
-    else:
-        return headers
+    return headers
 
 
-def clean_spaces(csv_dict):
-    """Cleans trailing spaces from the dictionary
-    values, which can break my datetime patterns."""
-    clean_row = {}
-    for row in csv_dict:
-        for k, v in row.items():
-            if v:
-                clean_row.update({k: v.strip()})
-            else:
-                clean_row.update({k: None})
+def clean_spaces(
+    csv_dict: t.Iterable[dict[str, str]]
+) -> t.Iterable[dict[str, str | None]]:
+    """Clean trailing spaces from the dictionary values.
 
-        yield clean_row
+    Trailing spaces can break my datetime patterns.
+    """
+    yield from (
+        {k: (v.strip() if v else None) for k, v in row.items()}
+        for row in csv_dict
+    )
 
 
 def check_dates_and_times(
-    start_date, start_time, end_date, end_time, all_day, rownum
-):
-    """Checks the dates and times to make sure everything is kosher."""
-
+    start_date: str | None,
+    start_time: str | None,
+    end_date: str | None,
+    end_time: str | None,
+    all_day: bool | None,
+    rownum: int | None,
+) -> None:
+    """Check the dates and times to make sure everything is kosher."""
     app.logger.debug("Date checker started.")
 
     # Gots to have a start date, no matter what.
     if start_date in ["", None]:
-        app.logger.error("Missing a start date at row {}".format(rownum))
+        app.logger.error(f"Missing a start date at row {rownum}")
         errmsg = "Missing a start date"
         try:
-            errmsg += " around row number {}.".format(rownum)
+            errmsg += f" around row number {rownum}."
         except Exception:
             pass
         raise DatetimeFormatError(errmsg)
@@ -138,8 +145,8 @@ def check_dates_and_times(
                 datetime.strptime(date, "%m/%d/%Y")
             except ValueError as e:
                 errmsg = (
-                    "Something isn't right with a date in row {}. Make "
-                    "sure you're using MM/DD/YYYY format.".format(rownum)
+                    f"Something isn't right with a date in row {rownum}. "
+                    "Make sure you're using MM/DD/YYYY format."
                 )
                 try:
                     bad_date = e.args[0].split("'")[1]
@@ -147,7 +154,7 @@ def check_dates_and_times(
                 except Exception:
                     pass
 
-                raise DatetimeFormatError(errmsg)
+                raise DatetimeFormatError(errmsg) from e
 
     for time in [start_time, end_time]:
         if time not in ["", None]:
@@ -159,9 +166,9 @@ def check_dates_and_times(
                     datetime.strptime(time, "%H:%M")
             except ValueError as e:
                 errmsg = (
-                    "Something isn't right with a time in row {}. Make "
-                    "sure you're using either '1:00 PM' or '13:00' "
-                    "format.".format(rownum)
+                    "Something isn't right with a time in row {rownum}. "
+                    "Make sure you're using either '1:00 PM' or '13:00' "
+                    "format."
                 )
                 try:
                     bad_time = e.args[0].split("'")[1]
@@ -169,7 +176,7 @@ def check_dates_and_times(
                 except Exception:
                     pass
 
-                raise DatetimeFormatError(errmsg)
+                raise DatetimeFormatError(errmsg) from e
 
     if all_day is None or all_day.lower() != "true":
         if not (start_time and end_time):
@@ -179,14 +186,16 @@ def check_dates_and_times(
             )
             errmsg = (
                 'Unless an event is "all day," it needs both a start '
-                "and end time. Double check row {}.".format(rownum)
+                "and end time. Double check row {rownum}."
             )
             raise DatetimeFormatError(errmsg)
 
     app.logger.debug("Date checker ended.")
 
 
-def convert(upfile):
+def convert(upfile: t.IO) -> bytes:
+    """Convert the file."""
+    breakpoint()
     reader_builder = unicode_csv_reader(upfile, skipinitialspace=True)
 
     reader_list = list(reader_builder)
@@ -211,7 +220,7 @@ def convert(upfile):
         app.logger.debug("Event {} started, contents:\n{}".format(rownum, row))
 
         # No blank subjects, skip row if subject is None or ''
-        if row.get("Subject") in ["", None]:
+        if row.get("Subject", "") in ["", None]:
             continue
 
         event = Event()
