@@ -10,10 +10,12 @@ debug:
 
 .PHONY: build-heroku
 build-heroku:
+	heroku container:login
 	DOCKER_DEFAULT_PLATFORM=linux/amd64 heroku container:push web
 
 .PHONY: release-heroku
 release-heroku: build-heroku
+	heroku container:login
 	heroku container:release web
 
 .PHONY: build
