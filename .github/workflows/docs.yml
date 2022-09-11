@@ -27,6 +27,7 @@ jobs:
       - name: Build HTML
         run: make docs
       - uses: actions/upload-pages-artifact@v0.1.0
+        if: github.ref == 'refs/heads/master'
         with:
           path: docs/_build/html
 
@@ -41,8 +42,8 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy docs
+        if: github.ref == 'refs/heads/master'
         id: deployment
         uses: actions/deploy-pages@v1
-        if: github.ref == 'refs/heads/master'
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
