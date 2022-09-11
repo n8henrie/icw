@@ -1,3 +1,5 @@
+SHELL := /bin/bash
+PYTHON = /usr/bin/env python3
 PORT=8000
 
 .PHONY: help
