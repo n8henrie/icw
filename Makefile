@@ -31,10 +31,16 @@ clean-docs:
 	rm -rf docs/icw*.rst docs/modules.rst docs/_build
 
 .PHONY: docs
-docs: clean-docs
+docs: clean-docs .venv
 	source .venv/bin/activate \
 		&& python -m pip install -e .[dev] \
 		&& sphinx-apidoc -o docs/ src/icw \
 		&& $(MAKE) -C docs clean \
 		&& $(MAKE) -C docs html
 	-open docs/_build/html/index.html
+
+.venv:
+	$(PYTHON) -m venv .venv
+	.venv/bin/python -m pip install --upgrade pip
+	.venv/bin/python -m pip install -e .
+
