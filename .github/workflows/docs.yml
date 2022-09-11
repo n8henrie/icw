@@ -27,6 +27,7 @@ jobs:
           path: docs/_build/html
 
   deploy:
+    if: github.ref == 'refs/heads/master'
     needs: build
     runs-on: ubuntu-22.04
     permissions:
@@ -37,7 +38,6 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy docs
-        if: github.ref == 'refs/heads/master'
         id: deployment
         uses: actions/deploy-pages@v1
         with:
