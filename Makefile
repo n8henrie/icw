@@ -44,3 +44,11 @@ docs: clean-docs .venv
 	.venv/bin/python -m pip install --upgrade pip
 	.venv/bin/python -m pip install -e .
 
+.PHONY: test
+test: .venv
+	.venv/bin/python -m pip install -e .[test]
+	py.test tests
+
+.PHONY: test-all
+test-all:
+	tox
