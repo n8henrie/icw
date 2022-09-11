@@ -1,5 +1,16 @@
 # History
 
+## 2.0.0 :: 20220911
+
+- Major update!
+- Update to pyproject.toml
+- travis -> github actions
+- docs on github pages
+- update to python3.10 and flask 2.0
+- docker
+- heroku instead of GAE
+- many other details
+
 ## 1.0.8 :: 20151114
 
 - Fallback to [`chardet`](https://github.com/chardet/chardet) for UnicodeDecodeError if utf8 doesn't work
