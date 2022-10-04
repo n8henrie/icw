@@ -10,15 +10,18 @@ help:
 debug:
 	./run.py
 
-.PHONY: build-heroku
-build-heroku:
-	heroku container:login
-	DOCKER_DEFAULT_PLATFORM=linux/amd64 heroku container:push web
+.PHONY: auth
+auth:
+	flyctl auth login
 
-.PHONY: release-heroku
-release-heroku: build-heroku
-	heroku container:login
-	heroku container:release web
+.PHONY: launch
+launch: build auth certs
+	flyctl launch
+	-fly open
+
+.PHONY: certs
+certs: auth
+	-flyctl certs create icw.n8henrie.com
 
 .PHONY: build
 build:
