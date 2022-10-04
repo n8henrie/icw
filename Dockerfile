@@ -35,8 +35,6 @@ FROM python:3.10-slim as runner
 
 COPY --from=builder /tmp/wheels/*.whl /tmp/wheels/
 
-ENV PORT=8000
-
 RUN \
     apt update \
     && apt-get install -y cron \
@@ -63,4 +61,4 @@ RUN \
     ./.venv/bin/python3 -m pip install --no-index --find-links=/tmp/wheels /app[test,dev] \
     && ./.venv/bin/python3 -m pytest tests
 
-CMD [ "sh", "-c", "./.venv/bin/gunicorn --bind=:${PORT} --workers=4 icw:app" ]
+CMD [ "./.venv/bin/gunicorn", "--bind=0.0.0.0", "--workers=4", "icw:app" ]
