@@ -27,7 +27,7 @@ dependencies = [
     "chardet==2.3.0",
     "Flask-Bootstrap==3.3.7.1",
     "Flask-WTF==1.0.1",
-    "flask==2.2",
+    "flask==2.3.2",
     "gunicorn==20.1.0",
     "icalendar==4.1.0",
     "WTForms==2.0.2",
